@@ -1,0 +1,45 @@
+﻿@model WebAPI.Models.Order
+
+@{
+    ViewData["Title"] = "Details";
+}
+
+<h1>Details</h1>
+
+<div>
+    <h4>Order</h4>
+    <hr />
+    <dl class="row">
+        <dt class="col-sm-2">
+            Item Code
+        </dt>
+        <dd class="col-sm-10" id="itemCode"></dd>
+        <dt class="col-sm-2">
+            Item Name
+        </dt>
+        <dd class="col-sm-10" id="itemName"></dd>
+        <!-- Thêm các trường khác tương tự -->
+    </dl>
+</div>
+<div>
+    <a asp-action="Edit" asp-route-id="@Model?.Id">Edit</a> |
+    <a asp-action="Index">Back to List</a>
+</div>
+
+@section Scripts {
+    <script>
+        var orderId = @Model?.Id; // Lấy Id của đơn hàng từ Model
+        var apiUrl = "/api/orders/" + orderId; // Đường dẫn API
+
+        // Gọi API để lấy dữ liệu đơn hàng
+        fetch(apiUrl)
+            .then(response => response.json())
+            .then(data => {
+                // Hiển thị dữ liệu trên view
+                document.getElementById("itemCode").innerText = data.itemCode;
+                document.getElementById("itemName").innerText = data.itemName;
+                // Thêm các dòng khác tương tự
+            })
+            .catch(error => console.error('Error:', error));
+    </script>
+}
